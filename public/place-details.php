@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/website/public/style.css">
-    <script type="text/javascript" src="/website/darkmode.js" defer></script>
+    <link rel="stylesheet" href="/public/style.css">
+    <script type="text/javascript" src="/darkmode.js" defer></script>
 </head>
 
 <body>
@@ -33,41 +33,49 @@
                 $galleryImageThreePath = $place["gallery_image_three"];
                 ?>
                 <div class="detail-card">
-                    <img class='cover-img' src='/website/public<?php echo $mainImagePath; ?>' alt='<?php echo $city; ?>'>
-                    <h2><?php echo $city; ?></h2>
-                    <p><strong>المنطقة:</strong> <?php echo $region; ?></p>
-                    <p><strong>الوصف:</strong> <?php echo $description; ?></p>
-                    <h3>المميزات</h3>
-                    <ul>
-                        <?php foreach ($features as $feature): ?>
-                            <li><?php echo $feature; ?></li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <div class="detail-hero">
+                        <img class="cover-img" src="/public<?php echo $mainImagePath; ?>" alt="<?php echo $city; ?>">
+                        <span class="detail-region"><?php echo $region; ?></span>
+                    </div>
 
-                    <h3>الأنشطة</h3>
-                    <ul>
-                        <?php foreach ($activities as $activity): ?>
-                            <li><?php echo $activity; ?></li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <div class="detail-body">
+                        <h2 class="detail-city"><?php echo $city; ?></h2>
+                        <p class="detail-desc"><?php echo $description; ?></p>
 
-                    <h3>المعالم</h3>
-                    <ul>
-                        <?php foreach ($landmarks as $landmark): ?>
-                            <li><?php echo $landmark; ?></li>
-                        <?php endforeach; ?>
-                    </ul>
+                        <div class="info-boxes">
+                            <div class="info-box info-box-green">
+                                <h3>المميزات</h3>
+                                <ul>
+                                    <?php foreach ($features as $feature): ?>
+                                        <li><?php echo $feature; ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                            <div class="info-box info-box-gold">
+                                <h3>الأنشطة</h3>
+                                <ul>
+                                    <?php foreach ($activities as $activity): ?>
+                                        <li><?php echo $activity; ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
 
-                    <h3>معرض الصور</h3>
-                    <div class="gallery">
-                        <img class="gallery-img" src="/website/public<?php echo $galleryImageOnePath; ?>"
-                            alt="<?php echo $galleryImageOnePath; ?>">
+                        <div class="landmarks">
+                            <h3>المعالم</h3>
+                            <ul>
+                                <?php foreach ($landmarks as $landmark): ?>
+                                    <li><?php echo $landmark; ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
 
-                        <img class="gallery-img" src="/website/public<?php echo $galleryImageTwoPath; ?>"
-                            alt="<?php echo $galleryImageTwoPath; ?>">
-
-                        <img class="gallery-img" src="/website/public<?php echo $galleryImageThreePath; ?>"
-                            alt="<?php echo $galleryImageThreePath; ?>">
+                        <h3 class="gallery-title">معرض الصور</h3>
+                        <div class="gallery">
+                            <img class="gallery-img" src="/public<?php echo $galleryImageOnePath; ?>" alt="<?php echo $city; ?>">
+                            <img class="gallery-img" src="/public<?php echo $galleryImageTwoPath; ?>" alt="<?php echo $city; ?>">
+                            <img class="gallery-img" src="/public<?php echo $galleryImageThreePath; ?>" alt="<?php echo $city; ?>">
+                        </div>
                     </div>
                 </div>
                 <?php

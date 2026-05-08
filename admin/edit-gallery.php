@@ -23,9 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $city = $_POST["city"];
     $description = $_POST["description"];
     $region = $_POST["region"];
-    $features = $_POST["features"];
-    $activities = $_POST["activities"];
-    $landmarks = $_POST["landmarks"];
+    $features = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["features"]));
+    $activities = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["activities"]));
+    $landmarks = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["landmarks"]));
 
     /*
         First get old images.
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         WHERE id = $id";
 
     if (mysqli_query($connection, $query)) {
-        header("Location: /website/admin/admin-dashboard.php?msg=updated");
+        header("Location: /admin/admin-dashboard.php?msg=updated");
         exit();
     } else {
         echo "Error: " . mysqli_error($connection);
@@ -77,7 +77,7 @@ $result = mysqli_query($connection, $query);
 $row = mysqli_fetch_assoc($result);
 
 if (!$row) {
-    header("Location: /website/admin/admin-dashboard.php?msg=not-found");
+    header("Location: /admin/admin-dashboard.php?msg=not-found");
     exit();
 }
 
@@ -92,6 +92,10 @@ $landmarks = $row["landmarks"];
 $galleryImageOne = $row["gallery_image_one"];
 $galleryImageTwo = $row["gallery_image_two"];
 $galleryImageThree = $row["gallery_image_three"];
+
+$featuresLines = str_replace(",", "\n", $features);
+$activitiesLines = str_replace(",", "\n", $activities);
+$landmarksLines = str_replace(",", "\n", $landmarks);
 ?>
 
 <!DOCTYPE html>
@@ -100,130 +104,96 @@ $galleryImageThree = $row["gallery_image_three"];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="/website/darkmode.js" defer></script>
-    <link rel="stylesheet" href="/website/public/style.css">
+    <script type="text/javascript" src="/darkmode.js" defer></script>
+    <link rel="stylesheet" href="/public/style.css">
     <title>تعديل معرض الصور</title>
 </head>
 
 <body>
-    <?php include("admin-header.php"); ?>
+    <?php
+    $pageTitle = "تعديل المحتوى";
+    include("admin-header.php"); ?>
 
-    <form action="/website/admin/edit-gallery.php" method="POST" enctype="multipart/form-data">
-        <h2>تعديل المكان</h2>
-
+    <form class="add-form" action="/admin/edit-gallery.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?php echo $id; ?>">
 
-        <label for="city">اسم المكان</label>
-        <br>
-        <input type="text" value="<?php echo $city; ?>" name="city" id="city" required>
-        <br>
+        <div class="detail-card">
+            <div class="detail-hero add-hero">
+                <img id="galleryMainImagePreview" class="cover-img add-cover-preview"
+                    src="/public<?php echo $mainImage; ?>" alt="<?php echo htmlspecialchars($city); ?>">
+                <div class="add-cover-placeholder" style="display:none;">اضغط لاستبدال صورة الغلاف</div>
+                <input type="file" id="galleryMainImage" name="galleryMainImage" accept="image/*"
+                    class="add-cover-input"
+                    onchange="previewImage(event, 'galleryMainImagePreview')">
+                <select name="region" required class="add-region-select detail-region">
+                    <?php
+                    $regions = ["وسطى", "غربية", "جنوبية", "شرقية", "شمالية"];
+                    foreach ($regions as $r) {
+                        $sel = ($r === $region) ? " selected" : "";
+                        echo "<option value=\"$r\"$sel>$r</option>";
+                    }
+                    ?>
+                </select>
+            </div>
 
-        <label for="galleryMainImage">الصورة الرئيسية الحالية</label>
-        <br>
-        <img src="/website/public<?php echo $mainImage; ?>" alt="<?php echo $city; ?>"
-            style="max-width: 200px; margin-top: 10px;">
-        <br>
-        <input type="file" onchange="previewImage(event, 'galleryMainImagePreview')" accept="image/*"
-            name="galleryMainImage" id="galleryMainImage">
-        <br>
-        <img id="galleryMainImagePreview" src="#" alt="معاينة الصورة الرئيسية"
-            style="display: none; max-width: 200px; margin-top: 10px;">
-        <br>
+            <div class="detail-body">
+                <input type="text" name="city" required value="<?php echo htmlspecialchars($city); ?>"
+                    placeholder="اسم المكان *" class="add-city-input">
+                <textarea name="description" required rows="4" placeholder="وصف قصير عن المكان *"
+                    class="add-desc-input"><?php echo htmlspecialchars($description); ?></textarea>
 
-        <label for="description">الوصف</label>
-        <br>
-        <input type="text" value="<?php echo $description; ?>" name="description" id="description" required>
-        <br>
+                <div class="info-boxes">
+                    <div class="info-box info-box-green">
+                        <h3>المميزات <span class="req-star">*</span></h3>
+                        <textarea name="features" required rows="3" placeholder="كل سطر يصبح نقطة"
+                            class="add-info-input"><?php echo htmlspecialchars($featuresLines); ?></textarea>
+                    </div>
+                    <div class="info-box info-box-gold">
+                        <h3>الأنشطة <span class="req-star">*</span></h3>
+                        <textarea name="activities" required rows="3" placeholder="كل سطر يصبح نقطة"
+                            class="add-info-input"><?php echo htmlspecialchars($activitiesLines); ?></textarea>
+                    </div>
+                </div>
 
-        <label for="region">المنطقة</label>
-        <br>
-        <select name="region" id="region" required>
-            <option value="الرياض" <?php if ($region == "الرياض")
-                echo "selected"; ?>>الرياض</option>
-            <option value="مكة" <?php if ($region == "مكة")
-                echo "selected"; ?>>مكة</option>
-            <option value="المدينة" <?php if ($region == "المدينة")
-                echo "selected"; ?>>المدينة</option>
-            <option value="الشرقية" <?php if ($region == "الشرقية")
-                echo "selected"; ?>>الشرقية</option>
-            <option value="عسير" <?php if ($region == "عسير")
-                echo "selected"; ?>>عسير</option>
-            <option value="تبوك" <?php if ($region == "تبوك")
-                echo "selected"; ?>>تبوك</option>
-            <option value="حائل" <?php if ($region == "حائل")
-                echo "selected"; ?>>حائل</option>
-            <option value="الجوف" <?php if ($region == "الجوف")
-                echo "selected"; ?>>الجوف</option>
-            <option value="الحدود الشمالية" <?php if ($region == "الحدود الشمالية")
-                echo "selected"; ?>>الحدود الشمالية
-            </option>
-            <option value="جازان" <?php if ($region == "جازان")
-                echo "selected"; ?>>جازان</option>
-            <option value="نجران" <?php if ($region == "نجران")
-                echo "selected"; ?>>نجران</option>
-            <option value="القصيم" <?php if ($region == "القصيم")
-                echo "selected"; ?>>القصيم</option>
-            <option value="الباحة" <?php if ($region == "الباحة")
-                echo "selected"; ?>>الباحة</option>
-        </select>
-        <br>
+                <div class="landmarks">
+                    <h3>المعالم <span class="req-star">*</span></h3>
+                    <textarea name="landmarks" required rows="3" placeholder="كل سطر يصبح نقطة"
+                        class="add-info-input"><?php echo htmlspecialchars($landmarksLines); ?></textarea>
+                </div>
 
-        <label for="features">المميزات</label>
-        <br>
-        <input type="text" value="<?php echo $features; ?>" name="features" id="features" required>
-        <br>
+                <h3 class="gallery-title">معرض الصور</h3>
+                <div class="gallery add-gallery">
+                    <label class="add-gallery-slot">
+                        <img id="galleryImageOnePreview" class="gallery-img"
+                            src="/public<?php echo $galleryImageOne; ?>" alt="">
+                        <input type="file" name="galleryImageOne" accept="image/*" hidden
+                            onchange="previewImage(event, 'galleryImageOnePreview')">
+                    </label>
+                    <label class="add-gallery-slot">
+                        <img id="galleryImageTwoPreview" class="gallery-img"
+                            src="/public<?php echo $galleryImageTwo; ?>" alt="">
+                        <input type="file" name="galleryImageTwo" accept="image/*" hidden
+                            onchange="previewImage(event, 'galleryImageTwoPreview')">
+                    </label>
+                    <label class="add-gallery-slot">
+                        <img id="galleryImageThreePreview" class="gallery-img"
+                            src="/public<?php echo $galleryImageThree; ?>" alt="">
+                        <input type="file" name="galleryImageThree" accept="image/*" hidden
+                            onchange="previewImage(event, 'galleryImageThreePreview')">
+                    </label>
+                </div>
 
-        <label for="activities">الأنشطة</label>
-        <br>
-        <input type="text" value="<?php echo $activities; ?>" name="activities" id="activities" required>
-        <br>
-
-        <label for="landmarks">أبرز المعالم</label>
-        <br>
-        <input type="text" value="<?php echo $landmarks; ?>" name="landmarks" id="landmarks" required>
-        <br>
-
-
-        <label for="galleryImageOne">صورة المعرض الحالية 1</label>
-        <br>
-        <img src="/website/public<?php echo $galleryImageOne; ?>" alt="صورة المعرض 1"
-            style="max-width: 200px; margin-top: 10px;">
-        <br>
-        <input type="file" onchange="previewImage(event, 'galleryImageOnePreview')" accept="image/*"
-            name="galleryImageOne" id="galleryImageOne">
-        <br>
-        <img id="galleryImageOnePreview" src="#" alt="معاينة صورة المعرض 1"
-            style="display: none; max-width: 200px; margin-top: 10px;">
-        <br>
-
-        <label for="galleryImageTwo">صورة المعرض الحالية 2</label>
-        <br>
-        <img src="/website/public<?php echo $galleryImageTwo; ?>" alt="صورة المعرض 2"
-            style="max-width: 200px; margin-top: 10px;">
-        <br>
-        <input type="file" onchange="previewImage(event, 'galleryImageTwoPreview')" accept="image/*"
-            name="galleryImageTwo" id="galleryImageTwo">
-        <br>
-        <img id="galleryImageTwoPreview" src="#" alt="معاينة صورة المعرض 2"
-            style="display: none; max-width: 200px; margin-top: 10px;">
-        <br>
-
-        <label for="galleryImageThree">صورة المعرض الحالية 3</label>
-        <br>
-        <img src="/website/public<?php echo $galleryImageThree; ?>" alt="صورة المعرض 3"
-            style="max-width: 200px; margin-top: 10px;">
-        <br>
-        <input type="file" onchange="previewImage(event, 'galleryImageThreePreview')" accept="image/*"
-            name="galleryImageThree" id="galleryImageThree">
-        <br>
-        <img id="galleryImageThreePreview" src="#" alt="معاينة صورة المعرض 3"
-            style="display: none; max-width: 200px; margin-top: 10px;">
-        <br>
-
-        <input type="submit" value="تحديث المكان">
+                <div class="add-actions">
+                    <button type="submit" class="add-submit-btn">تطبيق التعديلات</button>
+                    <button type="submit" class="delete-btn-large"
+                        formaction="/admin/delete-gallery.php" formnovalidate
+                        onclick="return confirm('هل أنت متأكد من حذف هذا العنصر؟');">حذف المكان</button>
+                </div>
+            </div>
+        </div>
     </form>
 
-    <script src="/website/script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>
