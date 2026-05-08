@@ -8,7 +8,7 @@ include("../config/db.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/public/style.css">
     <script type="text/javascript" src="/darkmode.js" defer></script>
 </head>
 
@@ -16,12 +16,12 @@ include("../config/db.php");
     <?php include __DIR__ . "/home-header.php"; ?>
     <main>
     <nav class="gallery-nav">
-        <form class="search-form" action="/public/gallery.php" method="GET">
-            <input type="text" id="search" name="search" placeholder="مثال: خميس مشيط">
+        <form action="/public/gallery.php" method="GET">
+            <input type="text" name="search" placeholder="مثال: الرياض">
             <input type="submit" value="ابحث">
         </form>
-        <form class="region-form" action="/public/gallery.php" method="GET">
-            <select name="region" id="region" onchange="this.form.submit()">
+        <form action="/public/gallery.php" method="GET">
+            <select name="region" onchange="this.form.submit()">
                 <?php
                 $currentRegion = $_GET["region"] ?? "all";
                 $regions = ["وسطى", "غربية", "جنوبية", "شرقية", "شمالية"];

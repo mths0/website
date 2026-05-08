@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="detail-hero add-hero">
                 <img id="galleryMainImagePreview" class="cover-img add-cover-preview" src="#" alt="" style="display:none;">
                 <div class="add-cover-placeholder">اضغط لاختيار صورة الغلاف *</div>
-                <input type="file" id="galleryMainImage" name="galleryMainImage" accept="image/*" required
+                <input type="file" name="galleryMainImage" accept="image/*" required
                     class="add-cover-input"
                     onchange="previewImage(event, 'galleryMainImagePreview')">
                 <select name="region" required class="add-region-select detail-region">

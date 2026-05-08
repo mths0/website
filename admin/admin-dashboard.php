@@ -38,7 +38,7 @@ include("../config/db.php");
 
     <?php endif ?>
 
-    <main class="dashboard">
+    <main>
         <div class="dashboard-head">
             <h1 class="dashboard-title">إدارة المحتوى</h1>
             <p class="dashboard-info">استخدم هذه الصفحة لإدارة محتوى الموقع من خلال عرض السجلات وإضافة أو تعديل أو حذف المحتوى.</p>

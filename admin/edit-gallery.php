@@ -122,7 +122,7 @@ $landmarksLines = str_replace(",", "\n", $landmarks);
                 <img id="galleryMainImagePreview" class="cover-img add-cover-preview"
                     src="/public<?php echo $mainImage; ?>" alt="<?php echo htmlspecialchars($city); ?>">
                 <div class="add-cover-placeholder" style="display:none;">اضغط لاستبدال صورة الغلاف</div>
-                <input type="file" id="galleryMainImage" name="galleryMainImage" accept="image/*"
+                <input type="file" name="galleryMainImage" accept="image/*"
                     class="add-cover-input"
                     onchange="previewImage(event, 'galleryMainImagePreview')">
                 <select name="region" required class="add-region-select detail-region">
