@@ -112,86 +112,91 @@ $landmarksLines = str_replace(",", "\n", $landmarks);
 <body>
     <?php
     $pageTitle = "تعديل المحتوى";
-    include("admin-header.php"); ?>
+    include("admin-header.php");
+    ?>
 
-    <form class="add-form" action="/admin/edit-gallery.php" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
+    <main>
+        <form class="add-form" action="/admin/edit-gallery.php" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?php echo $id; ?>">
 
-        <div class="detail-card">
-            <div class="detail-hero add-hero">
-                <img id="galleryMainImagePreview" class="cover-img add-cover-preview"
-                    src="/public<?php echo $mainImage; ?>" alt="<?php echo htmlspecialchars($city); ?>">
-                <div class="add-cover-placeholder" style="display:none;">اضغط لاستبدال صورة الغلاف</div>
-                <input type="file" name="galleryMainImage" accept="image/*"
-                    class="add-cover-input"
-                    onchange="previewImage(event, 'galleryMainImagePreview')">
-                <select name="region" required class="add-region-select detail-region">
-                    <?php
-                    $regions = ["وسطى", "غربية", "جنوبية", "شرقية", "شمالية"];
-                    foreach ($regions as $r) {
-                        $sel = ($r === $region) ? " selected" : "";
-                        echo "<option value=\"$r\"$sel>$r</option>";
-                    }
-                    ?>
-                </select>
-            </div>
+            <article class="detail-card">
+                <section class="detail-hero add-hero">
+                    <img id="galleryMainImagePreview" class="cover-img add-cover-preview"
+                        src="/public<?php echo $mainImage; ?>" alt="<?php echo htmlspecialchars($city); ?>">
+                    <div class="add-cover-placeholder" style="display:none;">اضغط لاستبدال صورة الغلاف</div>
+                    <input type="file" name="galleryMainImage" accept="image/*"
+                        class="add-cover-input"
+                        onchange="previewImage(event, 'galleryMainImagePreview')">
+                    <select name="region" required class="add-region-select detail-region">
+                        <?php
+                        $regions = ["وسطى", "غربية", "جنوبية", "شرقية", "شمالية"];
+                        foreach ($regions as $r) {
+                            $sel = ($r === $region) ? " selected" : "";
+                            echo "<option value=\"$r\"$sel>$r</option>";
+                        }
+                        ?>
+                    </select>
+                </section>
 
-            <div class="detail-body">
-                <input type="text" name="city" required value="<?php echo htmlspecialchars($city); ?>"
-                    placeholder="اسم المكان *" class="add-city-input">
-                <textarea name="description" required rows="4" placeholder="وصف قصير عن المكان *"
-                    class="add-desc-input"><?php echo htmlspecialchars($description); ?></textarea>
+                <section class="detail-body">
+                    <input type="text" name="city" required value="<?php echo htmlspecialchars($city); ?>"
+                        placeholder="اسم المكان *" class="add-city-input">
+                    <textarea name="description" required rows="4" placeholder="وصف قصير عن المكان *"
+                        class="add-desc-input"><?php echo htmlspecialchars($description); ?></textarea>
 
-                <div class="info-boxes">
-                    <div class="info-box info-box-green">
-                        <h3>المميزات <span class="req-star">*</span></h3>
-                        <textarea name="features" required rows="3" placeholder="كل سطر يصبح نقطة"
-                            class="add-info-input"><?php echo htmlspecialchars($featuresLines); ?></textarea>
+                    <section class="info-boxes" aria-label="Place details form">
+                        <section class="info-box info-box-green">
+                            <h2>المميزات <span class="req-star">*</span></h2>
+                            <textarea name="features" required rows="3" placeholder="كل سطر يصبح نقطة"
+                                class="add-info-input"><?php echo htmlspecialchars($featuresLines); ?></textarea>
+                        </section>
+                        <section class="info-box info-box-gold">
+                            <h2>الأنشطة <span class="req-star">*</span></h2>
+                            <textarea name="activities" required rows="3" placeholder="كل سطر يصبح نقطة"
+                                class="add-info-input"><?php echo htmlspecialchars($activitiesLines); ?></textarea>
+                        </section>
+                    </section>
+
+                    <section class="landmarks">
+                        <h2>المعالم <span class="req-star">*</span></h2>
+                        <textarea name="landmarks" required rows="3" placeholder="كل سطر يصبح نقطة"
+                            class="add-info-input"><?php echo htmlspecialchars($landmarksLines); ?></textarea>
+                    </section>
+
+                    <section aria-labelledby="edit-gallery-title">
+                        <h2 class="gallery-title" id="edit-gallery-title">معرض الصور</h2>
+                        <div class="gallery add-gallery">
+                            <label class="add-gallery-slot">
+                                <img id="galleryImageOnePreview" class="gallery-img"
+                                    src="/public<?php echo $galleryImageOne; ?>" alt="">
+                                <input type="file" name="galleryImageOne" accept="image/*" hidden
+                                    onchange="previewImage(event, 'galleryImageOnePreview')">
+                            </label>
+                            <label class="add-gallery-slot">
+                                <img id="galleryImageTwoPreview" class="gallery-img"
+                                    src="/public<?php echo $galleryImageTwo; ?>" alt="">
+                                <input type="file" name="galleryImageTwo" accept="image/*" hidden
+                                    onchange="previewImage(event, 'galleryImageTwoPreview')">
+                            </label>
+                            <label class="add-gallery-slot">
+                                <img id="galleryImageThreePreview" class="gallery-img"
+                                    src="/public<?php echo $galleryImageThree; ?>" alt="">
+                                <input type="file" name="galleryImageThree" accept="image/*" hidden
+                                    onchange="previewImage(event, 'galleryImageThreePreview')">
+                            </label>
+                        </div>
+                    </section>
+
+                    <div class="add-actions">
+                        <button type="submit" class="add-submit-btn">تطبيق التعديلات</button>
+                        <button type="submit" class="delete-btn-large"
+                            formaction="/admin/delete-gallery.php" formnovalidate
+                            onclick="return confirm('هل أنت متأكد من حذف هذا العنصر؟');">حذف المكان</button>
                     </div>
-                    <div class="info-box info-box-gold">
-                        <h3>الأنشطة <span class="req-star">*</span></h3>
-                        <textarea name="activities" required rows="3" placeholder="كل سطر يصبح نقطة"
-                            class="add-info-input"><?php echo htmlspecialchars($activitiesLines); ?></textarea>
-                    </div>
-                </div>
-
-                <div class="landmarks">
-                    <h3>المعالم <span class="req-star">*</span></h3>
-                    <textarea name="landmarks" required rows="3" placeholder="كل سطر يصبح نقطة"
-                        class="add-info-input"><?php echo htmlspecialchars($landmarksLines); ?></textarea>
-                </div>
-
-                <h3 class="gallery-title">معرض الصور</h3>
-                <div class="gallery add-gallery">
-                    <label class="add-gallery-slot">
-                        <img id="galleryImageOnePreview" class="gallery-img"
-                            src="/public<?php echo $galleryImageOne; ?>" alt="">
-                        <input type="file" name="galleryImageOne" accept="image/*" hidden
-                            onchange="previewImage(event, 'galleryImageOnePreview')">
-                    </label>
-                    <label class="add-gallery-slot">
-                        <img id="galleryImageTwoPreview" class="gallery-img"
-                            src="/public<?php echo $galleryImageTwo; ?>" alt="">
-                        <input type="file" name="galleryImageTwo" accept="image/*" hidden
-                            onchange="previewImage(event, 'galleryImageTwoPreview')">
-                    </label>
-                    <label class="add-gallery-slot">
-                        <img id="galleryImageThreePreview" class="gallery-img"
-                            src="/public<?php echo $galleryImageThree; ?>" alt="">
-                        <input type="file" name="galleryImageThree" accept="image/*" hidden
-                            onchange="previewImage(event, 'galleryImageThreePreview')">
-                    </label>
-                </div>
-
-                <div class="add-actions">
-                    <button type="submit" class="add-submit-btn">تطبيق التعديلات</button>
-                    <button type="submit" class="delete-btn-large"
-                        formaction="/admin/delete-gallery.php" formnovalidate
-                        onclick="return confirm('هل أنت متأكد من حذف هذا العنصر؟');">حذف المكان</button>
-                </div>
-            </div>
-        </div>
-    </form>
+                </section>
+            </article>
+        </form>
+    </main>
 
     <script src="/script.js"></script>
 </body>

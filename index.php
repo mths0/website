@@ -14,37 +14,37 @@ include("/config/db.php");
 </head>
 
 <body>
-    <?php include("./public/home-header.php") ?>
+    <?php include("./public/home-header.php"); ?>
     <main>
-        <div class="cards-row">
-            <div class="card-index card-welcome">
+        <section class="cards-row" aria-labelledby="welcome-heading">
+            <article class="card-index card-welcome">
                 <p>اكتشف المملكة العربية السعودية</p>
-                <h1>مرحبــــــــــــــــــــــــــــاً بكم</h1>
-            </div>
-        </div>
-        <div class="cards-row bottom-row">
-            <div class="card-index">
+                <h1 id="welcome-heading">مرحبــــــــــــــــــــــــــــاً بكم</h1>
+            </article>
+        </section>
+        <section class="cards-row bottom-row" aria-label="Website overview">
+            <article class="card-index">
                 <h2>موقع لتعرف على المملكة</h2>
                 <p>استكشف المملكة</p>
                 <div>
                     <a href="/public/gallery.php" class="card-btn">اكتشف</a>
                 </div>
-            </div>
-            <div class="cards-grid">
-                <div class="card-index">
+            </article>
+            <section class="cards-grid" aria-label="Highlights">
+                <article class="card-index">
                     <h3>الهدف</h3>
                     <p></p>
-                </div>
-                <div class="card-index">
+                </article>
+                <article class="card-index">
                     <h3>المناطق</h3>
                     <p></p>
-                </div>
-                <div class="card-index">
+                </article>
+                <article class="card-index">
                     <h3>التفاصيل</h3>
                     <p></p>
-                </div>
-            </div>
-        </div>
+                </article>
+            </section>
+        </section>
     </main>
     <?php include __DIR__ . "/public/includes/footer.php"; ?>
 

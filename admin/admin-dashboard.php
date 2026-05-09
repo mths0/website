@@ -39,15 +39,15 @@ include("../config/db.php");
     <?php endif ?>
 
     <main>
-        <div class="dashboard-head">
+        <section class="dashboard-head">
             <h1 class="dashboard-title">إدارة المحتوى</h1>
             <p class="dashboard-info">استخدم هذه الصفحة لإدارة محتوى الموقع من خلال عرض السجلات وإضافة أو تعديل أو حذف المحتوى.</p>
             <form method="get" action="/admin/add-gallery.php" class="dashboard-add">
                 <button type="submit" class="add-content-btn">إضافة محتوى جديد</button>
             </form>
-        </div>
+        </section>
 
-        <div class="dashboard-card">
+        <section class="dashboard-card" aria-label="Content table">
             <table class="dashboard-table">
                 <thead>
                     <tr>
@@ -96,7 +96,7 @@ include("../config/db.php");
                     ?>
                 </tbody>
             </table>
-        </div>
+        </section>
     </main>
     <script src="/script.js"></script>
 </body>

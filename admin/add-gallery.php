@@ -59,72 +59,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <?php
     $pageTitle = "محتوى جديد";
-    include("admin-header.php"); ?>
-    <form class="add-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
-        <div class="detail-card">
-            <div class="detail-hero add-hero">
-                <img id="galleryMainImagePreview" class="cover-img add-cover-preview" src="#" alt="" style="display:none;">
-                <div class="add-cover-placeholder">اضغط لاختيار صورة الغلاف *</div>
-                <input type="file" name="galleryMainImage" accept="image/*" required
-                    class="add-cover-input"
-                    onchange="previewImage(event, 'galleryMainImagePreview')">
-                <select name="region" required class="add-region-select detail-region">
-                    <option value="" disabled selected>المنطقة</option>
-                    <?php
-                    $regions = ["وسطى", "غربية", "جنوبية", "شرقية", "شمالية"];
-                    foreach ($regions as $r) {
-                        echo "<option value=\"$r\">$r</option>";
-                    }
-                    ?>
-                </select>
-            </div>
+    include("admin-header.php");
+    ?>
+    <main>
+        <form class="add-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
+            <article class="detail-card">
+                <section class="detail-hero add-hero">
+                    <img id="galleryMainImagePreview" class="cover-img add-cover-preview" src="#" alt="" style="display:none;">
+                    <div class="add-cover-placeholder">اضغط لاختيار صورة الغلاف *</div>
+                    <input type="file" name="galleryMainImage" accept="image/*" required
+                        class="add-cover-input"
+                        onchange="previewImage(event, 'galleryMainImagePreview')">
+                    <select name="region" required class="add-region-select detail-region">
+                        <option value="" disabled selected>المنطقة</option>
+                        <?php
+                        $regions = ["وسطى", "غربية", "جنوبية", "شرقية", "شمالية"];
+                        foreach ($regions as $r) {
+                            echo "<option value=\"$r\">$r</option>";
+                        }
+                        ?>
+                    </select>
+                </section>
 
-            <div class="detail-body">
-                <input type="text" name="city" required placeholder="اسم المكان *" class="add-city-input">
-                <textarea name="description" required rows="4" placeholder="وصف قصير عن المكان *" class="add-desc-input"></textarea>
+                <section class="detail-body">
+                    <input type="text" name="city" required placeholder="اسم المكان *" class="add-city-input">
+                    <textarea name="description" required rows="4" placeholder="وصف قصير عن المكان *" class="add-desc-input"></textarea>
 
-                <div class="info-boxes">
-                    <div class="info-box info-box-green">
-                        <h3>المميزات <span class="req-star">*</span></h3>
-                        <textarea name="features" required rows="3" placeholder="كل سطر يصبح نقطة" class="add-info-input"></textarea>
-                    </div>
-                    <div class="info-box info-box-gold">
-                        <h3>الأنشطة <span class="req-star">*</span></h3>
-                        <textarea name="activities" required rows="3" placeholder="كل سطر يصبح نقطة" class="add-info-input"></textarea>
-                    </div>
-                </div>
+                    <section class="info-boxes" aria-label="Place details form">
+                        <section class="info-box info-box-green">
+                            <h2>المميزات <span class="req-star">*</span></h2>
+                            <textarea name="features" required rows="3" placeholder="كل سطر يصبح نقطة" class="add-info-input"></textarea>
+                        </section>
+                        <section class="info-box info-box-gold">
+                            <h2>الأنشطة <span class="req-star">*</span></h2>
+                            <textarea name="activities" required rows="3" placeholder="كل سطر يصبح نقطة" class="add-info-input"></textarea>
+                        </section>
+                    </section>
 
-                <div class="landmarks">
-                    <h3>المعالم <span class="req-star">*</span></h3>
-                    <textarea name="landmarks" required rows="3" placeholder="كل سطر يصبح نقطة" class="add-info-input"></textarea>
-                </div>
+                    <section class="landmarks">
+                        <h2>المعالم <span class="req-star">*</span></h2>
+                        <textarea name="landmarks" required rows="3" placeholder="كل سطر يصبح نقطة" class="add-info-input"></textarea>
+                    </section>
 
-                <h3 class="gallery-title">معرض الصور <span class="req-star">*</span></h3>
-                <div class="gallery add-gallery">
-                    <label class="add-gallery-slot">
-                        <img id="galleryImageOnePreview" class="gallery-img" src="#" alt="" style="display:none;">
-                        <span class="add-gallery-placeholder">صورة 1 *</span>
-                        <input type="file" name="galleryImageOne" accept="image/*" required hidden
-                            onchange="previewImage(event, 'galleryImageOnePreview')">
-                    </label>
-                    <label class="add-gallery-slot">
-                        <img id="galleryImageTwoPreview" class="gallery-img" src="#" alt="" style="display:none;">
-                        <span class="add-gallery-placeholder">صورة 2 *</span>
-                        <input type="file" name="galleryImageTwo" accept="image/*" required hidden
-                            onchange="previewImage(event, 'galleryImageTwoPreview')">
-                    </label>
-                    <label class="add-gallery-slot">
-                        <img id="galleryImageThreePreview" class="gallery-img" src="#" alt="" style="display:none;">
-                        <span class="add-gallery-placeholder">صورة 3 *</span>
-                        <input type="file" name="galleryImageThree" accept="image/*" required hidden
-                            onchange="previewImage(event, 'galleryImageThreePreview')">
-                    </label>
-                </div>
+                    <section aria-labelledby="add-gallery-title">
+                        <h2 class="gallery-title" id="add-gallery-title">معرض الصور <span class="req-star">*</span></h2>
+                        <div class="gallery add-gallery">
+                            <label class="add-gallery-slot">
+                                <img id="galleryImageOnePreview" class="gallery-img" src="#" alt="" style="display:none;">
+                                <span class="add-gallery-placeholder">صورة 1 *</span>
+                                <input type="file" name="galleryImageOne" accept="image/*" required hidden
+                                    onchange="previewImage(event, 'galleryImageOnePreview')">
+                            </label>
+                            <label class="add-gallery-slot">
+                                <img id="galleryImageTwoPreview" class="gallery-img" src="#" alt="" style="display:none;">
+                                <span class="add-gallery-placeholder">صورة 2 *</span>
+                                <input type="file" name="galleryImageTwo" accept="image/*" required hidden
+                                    onchange="previewImage(event, 'galleryImageTwoPreview')">
+                            </label>
+                            <label class="add-gallery-slot">
+                                <img id="galleryImageThreePreview" class="gallery-img" src="#" alt="" style="display:none;">
+                                <span class="add-gallery-placeholder">صورة 3 *</span>
+                                <input type="file" name="galleryImageThree" accept="image/*" required hidden
+                                    onchange="previewImage(event, 'galleryImageThreePreview')">
+                            </label>
+                        </div>
+                    </section>
 
-                <input type="submit" value="إضافة المكان" class="add-submit-btn">
-            </div>
-        </div>
-    </form>
+                    <input type="submit" value="إضافة المكان" class="add-submit-btn">
+                </section>
+            </article>
+        </form>
+    </main>
 
     <script src="/script.js"></script>
 </body>
