@@ -12,16 +12,17 @@
 <body>
     <?php
     $pageTitle = "دخول المشرف";
-    include("../public/home-header.php") ?>
+    include("../public/home-header.php");
+    ?>
     <main class="login-page">
-        <div class="login-card">
+        <section class="login-card">
             <h1 class="login-title">تسجيل دخول المشرف</h1>
             <form class="login-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                 <input class="login-input" type="text" name="username" placeholder="اسم المستخدم" required>
                 <input class="login-input" type="password" name="password" placeholder="كلمة المرور" required>
                 <input class="login-submit" type="submit" value="دخول">
             </form>
-        </div>
+        </section>
     </main>
 
 

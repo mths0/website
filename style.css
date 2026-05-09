@@ -240,6 +240,7 @@ body {
   padding: 1rem 1.25rem;
 }
 
+.info-box h2,
 .info-box h3 {
   margin: 0 0 0.5rem;
   font-size: 1.15rem;
@@ -264,6 +265,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.landmarks h2,
 .landmarks h3 {
   margin: 0 0 0.5rem;
 }
@@ -296,9 +298,30 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 .div1 {
   margin-inline-end: auto;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.site-nav-link {
+  display: inline-block;
+  color: inherit;
+  background: transparent;
+  padding: 0.4rem 0.6rem;
+  font-size: 1.2rem;
+  border-radius: 0;
+}
+
+.site-nav-link:hover {
+  text-decoration: underline;
 }
 
 a {
@@ -344,6 +367,10 @@ header h2,
 header h3 {
   margin: 0;
   font-size: 1.2rem;
+}
+
+header nav {
+  margin: 0;
 }
 
 header form {
