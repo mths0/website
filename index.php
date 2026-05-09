@@ -24,8 +24,8 @@ include("/config/db.php");
         </section>
         <section class="cards-row bottom-row" aria-label="Website overview">
             <article class="card-index">
-                <h2>موقع لتعرف على المملكة</h2>
-                <p>استكشف المملكة</p>
+                <h2>بوابتك إلى تراث المملكة</h2>
+                <p>تجول بين مناطق المملكة العربية السعودية واكتشف عبقها التاريخي وتنوعها الثقافي في رحلة تفاعلية واحدة.</p>
                 <div>
                     <a href="/public/gallery.php" class="card-btn">اكتشف</a>
                 </div>
