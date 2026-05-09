@@ -1,6 +1,6 @@
 <header class="parent">
     <h2 class="div1"><?php echo $pageTitle ?? "اكتشف السعودية"; ?></h2>
-    <form action="/public/index.php" method="get">
+    <form action="/index.php" method="get">
         <button type="submit">الرئيسية</button>
     </form>
     <form action="/public/gallery.php" method="get">
