@@ -15,9 +15,6 @@ function uploadImageIfExists($inputName, $oldPath, $serverPath)
     return $oldPath;
 }
 
-/*
-    POST = update the place
-*/
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $city = $_POST["city"];
@@ -27,11 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $activities = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["activities"]));
     $landmarks = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["landmarks"]));
 
-    /*
-        First get old images.
-        This is important because images are optional in edit.
-        If admin does not upload a new image, we keep the old one.
-    */
     $oldQuery = "SELECT * FROM places WHERE id = $id";
     $oldResult = mysqli_query($connection, $oldQuery);
     $oldPlace = mysqli_fetch_assoc($oldResult);

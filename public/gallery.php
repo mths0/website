@@ -36,7 +36,6 @@ include("../config/db.php");
         <?php
         $query;
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            //comes from drop menu 
             if (isset($_GET["region"]) && $_GET["region"] != "all") {
                 $region = $_GET["region"];
                 $query = "SELECT * FROM places WHERE region = '$region'";

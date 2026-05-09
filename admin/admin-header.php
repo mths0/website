@@ -1,11 +1,3 @@
-<?php
-// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["logout"])) {
-//     session_start();
-//     session_destroy();
-//     header("Location: /index.php");
-//     exit();
-// }
-?>
 <header class="parent">
     <h3 class="div1"><?php echo $pageTitle ?? "لوحة تحكم المشرف"; ?></h3>
     <nav class="site-nav" aria-label="Admin navigation">

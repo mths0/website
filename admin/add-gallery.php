@@ -10,13 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $activities = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["activities"]));
     $landmarks = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["landmarks"]));
 
-    // Handle file uploads
     $galleryMainImage = $_FILES["galleryMainImage"];
     $galleryImageOne = $_FILES["galleryImageOne"];
     $galleryImageTwo = $_FILES["galleryImageTwo"];
     $galleryImageThree = $_FILES["galleryImageThree"];
 
-    // Upload to server
     $serverPath = __DIR__ . "/../public/uploads/places/";
 
     move_uploaded_file($galleryMainImage["tmp_name"], $serverPath . basename($galleryMainImage["name"]));
@@ -24,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     move_uploaded_file($galleryImageTwo["tmp_name"], $serverPath . basename($galleryImageTwo["name"]));
     move_uploaded_file($galleryImageThree["tmp_name"], $serverPath . basename($galleryImageThree["name"]));
 
-    // Save to database
     $mainImagePath = "/uploads/places/" . $galleryMainImage["name"];
     $imageOnePath = "/uploads/places/" . $galleryImageOne["name"];
     $imageTwoPath = "/uploads/places/" . $galleryImageTwo["name"];

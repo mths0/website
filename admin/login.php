@@ -44,13 +44,12 @@
                 $row = mysqli_fetch_assoc($result);
                 $id = $row["id"];
 
-                //! save session
                 session_start();
                 $_SESSION["admin_logged_in"] = true;
                 $_SESSION["id"] = $id;
                 $_SESSION["name"] = $user;
                 $_SESSION["password"] = $password;
-                header("Location: /admin/admin-dashboard.php"); // go to admin dashboard
+                header("Location: /admin/admin-dashboard.php");
                 exit();
             } else {
                 echo "<script>alert('اسم المستخدم أو كلمة المرور غير صحيحة'); window.location.href='/admin/login.php';</script>";

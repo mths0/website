@@ -20,7 +20,6 @@ include("../config/db.php");
     include("admin-header.php");
 
     if (isset($_GET["msg"])): ?>
-        <!--TODO make it function -->
         <?php if ($_GET["msg"] == "deleted"): ?>
             <p class="success-message">تم حذف العنصر بنجاح</p>
         <?php elseif ($_GET["msg"] == "delete-error"): ?>
