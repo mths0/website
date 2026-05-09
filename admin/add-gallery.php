@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
     <script type="text/javascript" src="/darkmode.js" defer></script>
-    <title>إضافة صور جديدة إلى المعرض</title>
+    <title>اكتشف السعودية | إضافة محتوى</title>
 </head>
 
 <body>

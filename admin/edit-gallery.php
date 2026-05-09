@@ -106,7 +106,7 @@ $landmarksLines = str_replace(",", "\n", $landmarks);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="/darkmode.js" defer></script>
     <link rel="stylesheet" href="/style.css">
-    <title>تعديل معرض الصور</title>
+    <title>اكتشف السعودية | تعديل المحتوى</title>
 </head>
 
 <body>

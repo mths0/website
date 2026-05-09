@@ -10,7 +10,7 @@ include("/config/db.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="/darkmode.js" defer></script>
     <link rel="stylesheet" href="/style.css">
-    <title>Discover Saudi</title>
+    <title>اكتشف السعودية</title>
 </head>
 
 <body>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/style.css" rel="stylesheet">
     <script type="text/javascript" src="/darkmode.js" defer></script>
-    <title>Admin Login</title>
+    <title>اكتشف السعودية | دخول المشرف</title>
 </head>
 
 <body>
