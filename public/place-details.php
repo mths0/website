@@ -80,13 +80,13 @@
                 </div>
                 <?php
             } else {
-                echo "Place not found.";
+                echo "لم نجد المكان.";
             }
         } else {
-            echo "Error fetching place details.";
+            echo "خطأ في استدعاء معلومات المكان.";
         }
     } else {
-        echo "No place ID specified.";
+        echo "لا يوجد مكان برقم التعريفي هذا.";
     }
     include __DIR__ . "/includes/footer.php";
     ?>
