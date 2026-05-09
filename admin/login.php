@@ -4,25 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/website/public/style.css" rel="stylesheet">
-    <script type="text/javascript" src="/website/darkmode.js" defer></script>
+    <link href="/style.css" rel="stylesheet">
+    <script type="text/javascript" src="/darkmode.js" defer></script>
     <title>Admin Login</title>
 </head>
 
 <body>
     <?php
+    $pageTitle = "دخول المشرف";
     include("../public/home-header.php") ?>
-    <h1>تسجيل دخول المشرف </h1>
-    <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-        <label>اسم المستخدم</label><br>
-        <input type="text" name="username" required>
-        <br>
-        <label>كلمة المرور</label><br>
-        <input type="password" name="password" required>
-        <br>
-        <input type="submit" value="دخول">
-        <hr>
-    </form>
+    <main class="login-page">
+        <div class="login-card">
+            <h1 class="login-title">تسجيل دخول المشرف</h1>
+            <form class="login-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                <input class="login-input" type="text" name="username" placeholder="اسم المستخدم" required>
+                <input class="login-input" type="password" name="password" placeholder="كلمة المرور" required>
+                <input class="login-submit" type="submit" value="دخول">
+            </form>
+        </div>
+    </main>
 
 
     <?php
@@ -49,10 +49,10 @@
                 $_SESSION["id"] = $id;
                 $_SESSION["name"] = $user;
                 $_SESSION["password"] = $password;
-                header("Location: /website/admin/admin-dashboard.php"); // go to admin dashboard
+                header("Location: /admin/admin-dashboard.php"); // go to admin dashboard
                 exit();
             } else {
-                echo "You are not admin";
+                echo "<script>alert('اسم المستخدم أو كلمة المرور غير صحيحة'); window.location.href='/admin/login.php';</script>";
                 exit();
             }
 
@@ -60,7 +60,7 @@
     }
 
     ?>
-    <script src="/website/script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

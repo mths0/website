@@ -10,8 +10,8 @@ include("../config/db.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/website/public/style.css">
-    <script type="text/javascript" src="/website/darkmode.js" defer></script>
+    <link rel="stylesheet" href="/style.css">
+    <script type="text/javascript" src="/darkmode.js" defer></script>
 </head>
 
 <body>
@@ -38,62 +38,67 @@ include("../config/db.php");
 
     <?php endif ?>
 
-    <h1>إدارة المحتوى</h1>
-    <p>مرحبًا بك في لوحة تحكم الإدارة. هنا يمكنك إدارة موقعك على الويب.</p>
+    <main>
+        <div class="dashboard-head">
+            <h1 class="dashboard-title">إدارة المحتوى</h1>
+            <p class="dashboard-info">استخدم هذه الصفحة لإدارة محتوى الموقع من خلال عرض السجلات وإضافة أو تعديل أو حذف المحتوى.</p>
+            <form method="get" action="/admin/add-gallery.php" class="dashboard-add">
+                <button type="submit" class="add-content-btn">إضافة محتوى جديد</button>
+            </form>
+        </div>
 
-    <form method="get" action="/website/admin/add-gallery.php">
-        <button type="submit"> إضافة محتوى جديد</button>
-    </form>
+        <div class="dashboard-card">
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>المنطقة</th>
+                        <th>التصنيف</th>
+                        <th>الوصف</th>
+                        <th colspan="2">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $query = "SELECT * FROM places";
+                    $result = mysqli_query($connection, $query);
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>المنطقة</th>
-            <th>التصنيف</th>
-            <th>الوصف</th>
-            <th colspan="2">الإجراءات</th>
-        </tr>
-
-        <?php
-        $query = "SELECT * FROM places";
-        $result = mysqli_query($connection, $query);
-
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $id = $row["id"];
-                $city = $row["city"];
-                $region = $row["region"];
-                $description = $row["description"];
-                ?>
-
-                <tr>
-                    <td><?php echo $id; ?></td>
-                    <td><?php echo $city; ?></td>
-                    <td><?php echo $region; ?></td>
-                    <td><?php echo $description; ?></td>
-                    <td>
-                        <form method="get" action="/website/admin/edit-gallery.php">
-                            <input type="hidden" name="id" value="<?php echo $id; ?>">
-                            <button type="submit" class="edit-btn">تعديل</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form method="POST" action="/website/admin/delete-gallery.php">
-                            <input type="hidden" name="id" value="<?php echo $id; ?>">
-                            <button type="submit" onclick="return confirm('هل أنت متأكد من حذف هذا العنصر؟');"
-                                class="delete-btn">حذف</button>
-                        </form>
-                    </td>
-                </tr>
-
-                <?php
-            }
-        } else {
-            echo "<tr><td colspan='6'>No Data Found.</td></tr>";
-        }
-        ?>
-    </table>
-    <script src="/website/script.js"></script>
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $id = $row["id"];
+                            $city = $row["city"];
+                            $region = $row["region"];
+                            $description = $row["description"];
+                            ?>
+                            <tr>
+                                <td><?php echo $id; ?></td>
+                                <td><?php echo $city; ?></td>
+                                <td><?php echo $region; ?></td>
+                                <td><?php echo $description; ?></td>
+                                <td>
+                                    <form method="get" action="/admin/edit-gallery.php">
+                                        <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                        <button type="submit" class="edit-btn">تعديل</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="POST" action="/admin/delete-gallery.php">
+                                        <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                        <button type="submit" onclick="return confirm('هل أنت متأكد من حذف هذا العنصر؟');" class="delete-btn">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                    } else {
+                        echo "<tr><td colspan='6'>لا توجد بيانات.</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="/script.js"></script>
 </body>
 
 </html>

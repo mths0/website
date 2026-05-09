@@ -6,9 +6,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $city = $_POST["city"];
     $description = $_POST["description"];
     $region = $_POST["region"];
-    $features = $_POST["features"];
-    $activities = $_POST["activities"];
-    $landmarks = $_POST["landmarks"];
+    $features = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["features"]));
+    $activities = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["activities"]));
+    $landmarks = str_replace(["\r\n", "\n", "\r"], ",", trim($_POST["landmarks"]));
 
     // Handle file uploads
     $galleryMainImage = $_FILES["galleryMainImage"];
@@ -33,12 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $query = "INSERT INTO places (city, region, description, features, activities, landmarks, main_image, gallery_image_one, gallery_image_two, gallery_image_three) VALUES ('$city', '$region', '$description', '$features', '$activities', '$landmarks', '$mainImagePath', '$imageOnePath', '$imageTwoPath', '$imageThreePath')";
 
     if (mysqli_query($connection, $query)) {
-        header("Location: /website/admin/admin-dashboard.php?msg=created");
+        header("Location: /admin/admin-dashboard.php?msg=created");
         mysqli_close($connection);
         exit();
 
     } else {
-        header("Location: /website/admin/admin-dashboard.php?msg=create-error");
+        header("Location: /admin/admin-dashboard.php?msg=create-error");
         mysqli_close($connection);
         exit();
     }
@@ -51,77 +51,82 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/website/public/style.css">
-    <script type="text/javascript" src="/website/darkmode.js" defer></script>
+    <link rel="stylesheet" href="/style.css">
+    <script type="text/javascript" src="/darkmode.js" defer></script>
     <title>إضافة صور جديدة إلى المعرض</title>
 </head>
 
 <body>
-    <?php include("admin-header.php") ?>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
-        <h2>إضافة صور جديدة إلى المعرض</h2>
+    <?php
+    $pageTitle = "محتوى جديد";
+    include("admin-header.php"); ?>
+    <form class="add-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
+        <div class="detail-card">
+            <div class="detail-hero add-hero">
+                <img id="galleryMainImagePreview" class="cover-img add-cover-preview" src="#" alt="" style="display:none;">
+                <div class="add-cover-placeholder">اضغط لاختيار صورة الغلاف *</div>
+                <input type="file" name="galleryMainImage" accept="image/*" required
+                    class="add-cover-input"
+                    onchange="previewImage(event, 'galleryMainImagePreview')">
+                <select name="region" required class="add-region-select detail-region">
+                    <option value="" disabled selected>المنطقة</option>
+                    <?php
+                    $regions = ["وسطى", "غربية", "جنوبية", "شرقية", "شمالية"];
+                    foreach ($regions as $r) {
+                        echo "<option value=\"$r\">$r</option>";
+                    }
+                    ?>
+                </select>
+            </div>
 
-        <label for="city">اسم المكان*</label>
-        <br>
-        <input type="text" name="city" id="city" required>
-        <br>
-        <label for="galleryMainImage">الصورة الرئيسية للمكان*</label><br>
-        <input type="file" onchange="previewImage(event, 'galleryMainImagePreview')" accept="image/*"
-            name="galleryMainImage" id="galleryMainImage" required>
-        <img id="galleryMainImagePreview" src="#" alt="معاينة الصورة الرئيسية"
-            style="display: none; max-width: 200px; margin-top: 10px;">
-        <br>
-        <label for="description">الوصف*</label><br>
-        <input type="text" name="description" id="description" required>
-        <br>
-        <label for="region">المنطقة</label><br>
-        <select name="region" id="region" required>
-            <option value="الرياض" selected>الرياض</option>
-            <option value="مكة">مكة</option>
-            <option value="المدينة">المدينة</option>
-            <option value="الشرقية">الشرقية</option>
-            <option value="عسير">عسير</option>
-            <option value="تبوك">تبوك</option>
-            <option value="حائل">حائل</option>
-            <option value="الجوف">الجوف</option>
-            <option value="الحدود الشمالية">الحدود الشمالية</option>
-            <option value="جازان">جازان</option>
-            <option value="نجران">نجران</option>
-            <option value="القصيم">القصيم</option>
-            <option value="الباحة">الباحة</option>
-        </select>
-        <br>
-        <label for="features">المميزات*</label><br>
-        <input type="text" name="features" id="features" required>
-        <br>
-        <label for="activities">الانشطة (افصل بين الانشطة بفاصلة)*</label><br>
-        <input type="text" name="activities" id="activities" required>
-        <br>
-        <label for="landmarks">ابرز المعالم (افصل بين المعالم بفاصلة)*</label><br>
-        <input type="text" name="landmarks" id="landmarks" required>
-        <br>
-        <label for="galleryImageOne">صورة المعرض 1:* </label><br>
-        <input type="file" onchange="previewImage(event, 'galleryImageOnePreview')" accept="image/*"
-            name="galleryImageOne" id="galleryImageOne" required>
-        <img id="galleryImageOnePreview" src="#" alt="معاينة صورة المعرض 1"
-            style="display: none; max-width: 200px; margin-top: 10px;">
-        <br>
-        <label for="galleryImageTwo">صورة المعرض 2:* </label><br>
-        <input type="file" onchange="previewImage(event, 'galleryImageTwoPreview')" accept="image/*"
-            name="galleryImageTwo" id="galleryImageTwo" required>
-        <img id="galleryImageTwoPreview" src="#" alt="معاينة صورة المعرض 2"
-            style="display: none; max-width: 200px; margin-top: 10px;">
-        <br>
-        <label for="galleryImageThree">صورة المعرض 3:* </label><br>
-        <input type="file" onchange="previewImage(event, 'galleryImageThreePreview')" accept="image/*"
-            name="galleryImageThree" id="galleryImageThree" required>
+            <div class="detail-body">
+                <input type="text" name="city" required placeholder="اسم المكان *" class="add-city-input">
+                <textarea name="description" required rows="4" placeholder="وصف قصير عن المكان *" class="add-desc-input"></textarea>
 
-        <img id="galleryImageThreePreview" src="#" alt="معاينة صورة المعرض 3"
-            style="display: none; max-width: 200px; margin-top: 10px;" req><br>
-        <input type="submit" value="اضافة مكان جديد">
+                <div class="info-boxes">
+                    <div class="info-box info-box-green">
+                        <h3>المميزات <span class="req-star">*</span></h3>
+                        <textarea name="features" required rows="3" placeholder="كل سطر يصبح نقطة" class="add-info-input"></textarea>
+                    </div>
+                    <div class="info-box info-box-gold">
+                        <h3>الأنشطة <span class="req-star">*</span></h3>
+                        <textarea name="activities" required rows="3" placeholder="كل سطر يصبح نقطة" class="add-info-input"></textarea>
+                    </div>
+                </div>
+
+                <div class="landmarks">
+                    <h3>المعالم <span class="req-star">*</span></h3>
+                    <textarea name="landmarks" required rows="3" placeholder="كل سطر يصبح نقطة" class="add-info-input"></textarea>
+                </div>
+
+                <h3 class="gallery-title">معرض الصور <span class="req-star">*</span></h3>
+                <div class="gallery add-gallery">
+                    <label class="add-gallery-slot">
+                        <img id="galleryImageOnePreview" class="gallery-img" src="#" alt="" style="display:none;">
+                        <span class="add-gallery-placeholder">صورة 1 *</span>
+                        <input type="file" name="galleryImageOne" accept="image/*" required hidden
+                            onchange="previewImage(event, 'galleryImageOnePreview')">
+                    </label>
+                    <label class="add-gallery-slot">
+                        <img id="galleryImageTwoPreview" class="gallery-img" src="#" alt="" style="display:none;">
+                        <span class="add-gallery-placeholder">صورة 2 *</span>
+                        <input type="file" name="galleryImageTwo" accept="image/*" required hidden
+                            onchange="previewImage(event, 'galleryImageTwoPreview')">
+                    </label>
+                    <label class="add-gallery-slot">
+                        <img id="galleryImageThreePreview" class="gallery-img" src="#" alt="" style="display:none;">
+                        <span class="add-gallery-placeholder">صورة 3 *</span>
+                        <input type="file" name="galleryImageThree" accept="image/*" required hidden
+                            onchange="previewImage(event, 'galleryImageThreePreview')">
+                    </label>
+                </div>
+
+                <input type="submit" value="إضافة المكان" class="add-submit-btn">
+            </div>
+        </div>
     </form>
 
-    <script src="/website/script.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

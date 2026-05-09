@@ -8,37 +8,28 @@ include("../config/db.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/website/style.css">
-    <script type="text/javascript" src="/website/darkmode.js" defer></script>
+    <link rel="stylesheet" href="/style.css">
+    <script type="text/javascript" src="/darkmode.js" defer></script>
 </head>
 
 <body>
     <?php include __DIR__ . "/home-header.php"; ?>
-    <nav>
-
-        <form action="/website/public/gallery.php" method="GET">
-            <input type="text" id="search" name="search" placeholder="مثال: خميس مشيط">
+    <main>
+    <nav class="gallery-nav">
+        <form action="/public/gallery.php" method="GET">
+            <input type="text" name="search" placeholder="مثال: الرياض">
             <input type="submit" value="ابحث">
         </form>
-        <br>
-        <form action="/website/public/gallery.php" method="GET">
-            <label for="region">اختر المنطقة</label>
-
-            <select name="region" id="region" onchange="this.form.submit()">
-                <option value="all">كل المناطق</option>
-                <option value="الرياض">الرياض</option>
-                <option value="مكة">مكة</option>
-                <option value="المدينة">المدينة</option>
-                <option value="الشرقية">الشرقية</option>
-                <option value="عسير">عسير</option>
-                <option value="تبوك">تبوك</option>
-                <option value="حائل">حائل</option>
-                <option value="الجوف">الجوف</option>
-                <option value="الحدود الشمالية">الحدود الشمالية</option>
-                <option value="جازان">جازان</option>
-                <option value="نجران">نجران</option>
-                <option value="القصيم">القصيم</option>
-                <option value="الباحة">الباحة</option>
+        <form action="/public/gallery.php" method="GET">
+            <select name="region" onchange="this.form.submit()">
+                <?php
+                $currentRegion = $_GET["region"] ?? "all";
+                $regions = ["وسطى", "غربية", "جنوبية", "شرقية", "شمالية"];
+                ?>
+                <option value="all" <?php if ($currentRegion === "all") echo "selected"; ?>>كل المناطق</option>
+                <?php foreach ($regions as $r): ?>
+                    <option value="<?php echo $r; ?>" <?php if ($currentRegion === $r) echo "selected"; ?>><?php echo $r; ?></option>
+                <?php endforeach; ?>
             </select>
         </form>
     </nav>
@@ -59,6 +50,9 @@ include("../config/db.php");
         $result = mysqli_query($connection, $query);
         $numberOfRows = mysqli_num_rows($result);
         if ($numberOfRows > 0) {
+            ?>
+            <div class="gallery-grid">
+            <?php
             for ($i = 0; $i < $numberOfRows; $i++) {
                 $row = mysqli_fetch_assoc($result);
                 if ($row) {
@@ -67,31 +61,23 @@ include("../config/db.php");
                     $mainImage = $row["main_image"];
                     $region = $row["region"];
                     $description = $row["description"];
-                    $features = $row["features"];
-                    $activities = $row["activities"];
-                    $landmarks = explode(",", $row["Landmarks"]);
-                    $galleryImageOne = $row["galleryImageOne"];
-                    $galleryImageTwo = $row["galleryImageTwo"];
-                    $galleryImageThree = $row["galleryImageThree"];
                     ?>
-
-
-                    <a class='card-link' href='/website/public/place-details.php?id=<?php echo $id; ?>'>
-                        <div class='card'>
-                            <img class='card-img' src='/website/public<?php echo $mainImage; ?>' alt='<?php echo $city; ?>'>
-
-                            <p><?php echo $region; ?></p>
-
-                            <h3><?php echo $city; ?></h3>
-
-                            <p><?php echo $description; ?></p>
+                    <a class="card-link" href="/public/place-details.php?id=<?php echo $id; ?>">
+                        <div class="card">
+                            <img class="card-img" src="/public<?php echo $mainImage; ?>" alt="<?php echo $city; ?>">
+                            <div class="card-body">
+                                <h3 class="card-city"><?php echo $city; ?></h3>
+                                <p class="card-desc"><?php echo $description; ?></p>
+                            </div>
+                            <div class="card-region"><?php echo $region; ?></div>
                         </div>
                     </a>
                     <?php
                 }
-                ?>
-                <?php
             }
+            ?>
+            </div>
+            <?php
         } else {
             echo "No Data Found.";
         }
@@ -99,6 +85,7 @@ include("../config/db.php");
 
     ?>
 
+    </main>
     <?php include __DIR__ . "/includes/footer.php"; ?>
 </body>
 
