@@ -79,7 +79,7 @@ include("../config/db.php");
                 </section>
                 <?php
             } else {
-                echo "No Data Found.";
+                echo "لا يوجد اي مكان";
             }
         }
 
