@@ -33,15 +33,15 @@ include("/config/db.php");
             <section class="cards-grid" aria-label="Highlights">
                 <article class="card-index">
                     <h3>الهدف</h3>
-                    <p></p>
+                    <p>التعريف بثقافة ومعالم المملكة العربية السعودية</p>
                 </article>
                 <article class="card-index">
                     <h3>المناطق</h3>
-                    <p></p>
+                    <p>استعراض مناطق المملكة المختلفة ومعالمها السياحية</p>
                 </article>
                 <article class="card-index">
                     <h3>التفاصيل</h3>
-                    <p></p>
+                    <p>عرض معلومات وصور وأنشطة خاصة بكل منطقة</p>
                 </article>
             </section>
         </section>
